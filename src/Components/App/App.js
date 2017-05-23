@@ -6,21 +6,21 @@ import './App.css';
 class App extends Component {
   constructor() {
     super()
-    this.state = {
-      machines: [],
-      regions: [],
-      locationType: []
-    }
+    this.state = {}
   }
 
   componentWillMount() {
     const machinePath ='machines.json'
     const regionPath ='regions.json'
     const locationTypePath ='location_types.json'
+    const pathArr = [machinePath, regionPath, locationTypePath]
 
-    apiCall(machinePath)
-    apiCall(regionPath)
-    apiCall(locationTypePath)
+    pathArr.forEach(path => {
+      apiCall(path).then(data => {
+        let key = Object.keys(data)
+        this.setState({ [key]: data[key]})
+      })
+    })
   }
 
   render() {
