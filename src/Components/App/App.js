@@ -39,7 +39,7 @@ class App extends Component {
     navigator.geolocation.getCurrentPosition(position => {
       let lat = position.coords.latitude
       let long = position.coords.longitude
-      this.setState({ lat: lat.toString(), long: long.toString() })
+      this.setState({ lat, long })
     })
   }
 
