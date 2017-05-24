@@ -15,6 +15,9 @@ class App extends Component {
     this.verifyGeolocation()
     let distanceApart = latLongConversion(10,100,20,200)
     console.log(distanceApart);
+    this.featureDetection()
+    this.askNotificationPermission()
+
   }
 
   fetchData() {
@@ -40,6 +43,29 @@ class App extends Component {
       let lat = position.coords.latitude
       let long = position.coords.longitude
       this.setState({ lat, long })
+    })
+  }
+
+  featureDetection() {
+    return !('serviceWorker' in navigator) || !('PushManager' in window) ?
+    false : true
+  }
+
+  askNotificationPermission() {
+    console.log('in permission');
+    return new Promise((resolve, reject) => {
+      const permissionResult = Notification.requestPermission(result => {
+        resolve(result)
+      })
+      if(permissionResult) {
+        permissionResult.then(resolve,reject)
+      }
+    })
+    .then(permissionResult => {
+      console.log('we got permission');
+      if(permissionResult !== 'granted') {
+        throw new Error('We were not granted notification permission')
+      }
     })
   }
 
