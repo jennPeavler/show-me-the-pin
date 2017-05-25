@@ -80,8 +80,8 @@ class App extends Component {
   }
 
   subscribeUserToPush() {
-    // return getSWRegistration
-    console.log(navigator.serviceWorker.ready)
+    // return getRegistration()
+    // console.log(navigator.serviceWorker.ready)
     navigator.serviceWorker.ready
     .then(registration => {
       console.log(registration);
