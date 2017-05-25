@@ -5,7 +5,8 @@
   "dependencies": {
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-scripts": "1.0.5"
+    "react-scripts": "1.0.5",
+    "web-push": "^3.2.2"
   },
   "devDependencies": {
     "react-scripts": "1.0.5"

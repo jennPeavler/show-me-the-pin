@@ -28,7 +28,7 @@ class App extends Component {
     this.featureDetection()
     this.askNotificationPermission()
     // this.subscribeUserToPush()
-    // this.alternativeCode()
+    this.alternativeCode()
 
   }
 
@@ -63,6 +63,13 @@ class App extends Component {
       .catch(error => {
         this.setState({ city: 'n/a', state: 'n/a' })
       })
+    })
+  }
+
+  fetchNearbyPins(lat, long) {
+    latLonPinballApiCall(lat, long)
+    .then( nearbyPinData => {
+      this.setState({nearbyPins: nearbyPinData.locations});
     })
   }
 
@@ -181,12 +188,6 @@ class App extends Component {
     })
   }
 
-  fetchNearbyPins(lat, long) {
-    latLonPinballApiCall(lat, long)
-    .then( nearbyPinData => {
-      this.setState({nearbyPins: nearbyPinData.locations});
-    })
-  }
 
   render() {
     return (
