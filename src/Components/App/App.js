@@ -17,6 +17,8 @@ class App extends Component {
     console.log(distanceApart);
     this.featureDetection()
     this.askNotificationPermission()
+    console.log(this.getNotificationPermissionState())
+    this.subscribeUserToPush()
 
   }
 
@@ -67,6 +69,42 @@ class App extends Component {
         throw new Error('We were not granted notification permission')
       }
     })
+  }
+
+  getNotificationPermissionState() {
+    if(navigator.permissions) {
+      return navigator.permissions.query({name: 'notifications'})
+      .then(result => result.state)
+    }
+    return new Promise(resolve => resolve(Notification.permission))
+  }
+
+  subscribeUserToPush() {
+    // return getSWRegistration
+    console.log(navigator.serviceWorker.ready)
+    navigator.serviceWorker.ready
+    .then(registration => {
+      console.log(registration);
+      const subscribeOptions = {
+        userVisibleOnly: true,
+        applicationServerKey: this.urlBase64ToUint8Array('BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U')
+      }
+      return registration.pushManager.subscribe(subscribeOptions)
+    })
+    .then(pushSubscription => {
+      console.log('Received PushSubscription:  ', JSON.stringify(pushSubscription))
+      return pushSubscription
+    })
+  }
+
+  urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+    .replace(/\-/g, '+')
+    .replace(/_/g, '/')
+
+    const rawData = window.atob(base64);
+    return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
   }
 
   render() {
