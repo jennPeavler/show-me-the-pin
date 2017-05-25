@@ -1,24 +1,16 @@
+@import '../../normalize.css';
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,700');
+
 .App {
+  font-family: 'Noto Sans', sans-serif;
   text-align: center;
+
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+h2 {
+  color: #C9077E;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+#location-text {
+  color: #FDFE28;
 }
