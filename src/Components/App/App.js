@@ -138,8 +138,10 @@ class App extends Component {
 
     navigator.serviceWorker.register('service-worker.js')
     .then(function(registration) {
+      // console.log(registration);
       return registration.pushManager.getSubscription()
       .then(function(subscription) {
+        // console.log(subscription);
         if (subscription) {
           return subscription;
         }
@@ -150,6 +152,7 @@ class App extends Component {
       });
     })
     .then(function(subscription) {
+      console.log(subscription);
       var rawKey = subscription.getKey ? subscription.getKey('p256dh') : '';
       key = rawKey ?
             btoa(String.fromCharCode.apply(null, new Uint8Array(rawKey))) :
@@ -187,7 +190,6 @@ class App extends Component {
       })
     })
   }
-
 
   render() {
     return (
