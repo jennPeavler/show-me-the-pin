@@ -2,10 +2,10 @@ import React from 'react'
 
 export const LocationDisplay = ({ nearbyPins }) => {
   return (
-    <div>
+    <div id='locations-container'>
       {nearbyPins.map( location => {
         return (
-          <p key={location.name}>{location.name}</p>
+          <p className='location-name' key={location.name}>{location.name}</p>
         )
       })}
     </div>
