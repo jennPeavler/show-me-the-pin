@@ -7,7 +7,7 @@ import {server} from '../../server'
 import {LocationDisplay} from '../LocationDisplay/LocationDisplay'
 import LocatorButton from '../LocatorButton/LocatorButton'
 import {InspirationalQuote} from '../InspirationalQuote/InspirationalQuote'
-import SearchBar from '../SearchBar/SearchBar'
+import {SearchBar} from '../SearchBar/SearchBar'
 import './App.css';
 
 class App extends Component {
@@ -21,7 +21,9 @@ class App extends Component {
       machines: [],
       regions: [],
       state: '',
-      nearbyPins: []
+      nearbyPins: [],
+      searched: [],
+      searchInput: false
     }
   }
 
@@ -206,6 +208,22 @@ class App extends Component {
     console.log('scrolling')
   }
 
+  search(searchInput) {
+    searchInput ? this.setState({searchInput: true}) : this.setState({searchInput: false})
+    let searchResults = searchInput ?
+      this.state.nearbyPins.filter(location => location.name.toUpperCase()
+      .includes(searchInput.toUpperCase()))
+      : this.state.nearbyPins
+
+      this.setState({ searched: searchResults })
+  }
+
+  // findAllMatches(searchInput) {
+  //   const locations = Object.keys(this.data)
+  //
+  //   return searchInput ? locations.filter(location => location.includes(searchInput.toUpperCase()))
+  //   : locations.map(location => this.data[location].location)
+  // }
   render() {
     return (
       <section className="App">
@@ -215,8 +233,12 @@ class App extends Component {
           <LocatorButton id='locator' handleClick={this.handleClick.bind(this)}/>
           <InspirationalQuote id='quote' scrollQuote={this.state.quote} />
           <h2 id='intro-message'>Finding pinball locations near you....</h2>
-          <SearchBar />
-          <LocationDisplay city={this.state.city} state={this.state.state} nearbyPins={this.state.nearbyPins}/>
+          <SearchBar search={this.search.bind(this)}/>
+          <LocationDisplay city={this.state.city}
+                           state={this.state.state}
+                           nearbyPins={this.state.nearbyPins}
+                           searched={this.state.searched}
+                           searchInput={this.state.searchInput}/>
         </main>
       </section>
     )
