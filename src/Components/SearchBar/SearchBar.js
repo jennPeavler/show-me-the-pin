@@ -1,16 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class LocatorButton extends Component {
-  constructor({ handleClick }) {
-    super()
-    this.state = {
-
-    }
-  }
-
-  render() {
-    return (
-      <input placeholder='Search' id='search-bar' />
-    )
-  }
+export const SearchBar = ({ search }) => {
+  return (
+    <input id='search-bar'
+           placeholder='Search'
+           onChange = {event => {search(event.target.value)} }
+    />
+  )
 }
