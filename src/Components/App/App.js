@@ -22,7 +22,8 @@ class App extends Component {
       regions: [],
       state: '',
       nearbyPins: [],
-      searched: []
+      searched: [],
+      searchInput: false
     }
   }
 
@@ -208,10 +209,11 @@ class App extends Component {
   }
 
   search(searchInput) {
+    searchInput ? this.setState({searchInput: true}) : this.setState({searchInput: false})
     let searchResults = searchInput ?
       this.state.nearbyPins.filter(location => location.name.toUpperCase()
       .includes(searchInput.toUpperCase()))
-      : []
+      : this.state.nearbyPins
 
       this.setState({ searched: searchResults })
   }
@@ -235,7 +237,8 @@ class App extends Component {
           <LocationDisplay city={this.state.city}
                            state={this.state.state}
                            nearbyPins={this.state.nearbyPins}
-                           searched={this.state.searched}/>
+                           searched={this.state.searched}
+                           searchInput={this.state.searchInput}/>
         </main>
       </section>
     )
