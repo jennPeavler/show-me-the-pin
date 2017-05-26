@@ -73,7 +73,10 @@ class App extends Component {
   fetchNearbyPins(lat, long) {
     latLonPinballApiCall(lat, long)
     .then( nearbyPinData => {
-      this.setState({nearbyPins: nearbyPinData.locations});
+      const pinsInOrder = nearbyPinData.locations.sort((a,z) => {
+        return a.name.toUpperCase() < z.name.toUpperCase() ? -1 : 1
+      })
+      this.setState({nearbyPins: pinsInOrder})
     })
   }
 
