@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom'
 
 import { pinballApiCall, gmapsApiCall, latLonPinballApiCall } from '../../apiCalls'
-import './App.css';
 import { latLongConversion } from '../../helperFunctions/latLongConversion'
 import {server} from '../../server'
-import {LocationDisplay} from '../LocationDisplay/LocationDisplay.js'
+import {LocationDisplay} from '../LocationDisplay/LocationDisplay'
+import LocatorButton from '../LocatorButton/LocatorButton'
+import {InspirationalQuote} from '../InspirationalQuote/InspirationalQuote'
+import SearchBar from '../SearchBar/SearchBar'
+import './App.css';
 
 class App extends Component {
   constructor() {
@@ -191,20 +195,30 @@ class App extends Component {
     })
   }
 
+  handleClick() {
+    console.log('i am clicked')
+  }
+
+  scrollQuote() {
+    console.log('scrolling')
+  }
+
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <h2>Please login or signup</h2>
-          <img src='https://d30y9cdsu7xlg0.cloudfront.net/png/17955-200.png' />
-          {/* <img src='./pinball-favicon.png' /> */}
-          <h1>Show Me the Pin</h1>
-          <p id='location-text'>In or Around {this.state.city}, {this.state.state}</p>
-        </div>
-        <LocationDisplay nearbyPins = {this.state.nearbyPins}/>
-      </div>
-    );
+      <section className="App">
+        <header>Pin<span id='show'>show</span></header>
+        <div id='divider'></div>
+        <main>
+          <LocatorButton id='locator' handleClick={this.handleClick.bind(this)}/>
+          <InspirationalQuote id='quote' scrollQuote={this.state.quote} />
+          <h2 id='intro-message'>Finding pinball locations near you....</h2>
+          <SearchBar />
+          <LocationDisplay city={this.state.city} state={this.state.state} nearbyPins={this.state.nearbyPins}/>
+        </main>
+      </section>
+    )
   }
 }
+
 
 export default App;
