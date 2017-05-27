@@ -1,21 +1,27 @@
 {
-  "name": "show-pin",
-  "version": "0.1.0",
+  "name": "showmethepin-server",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
-    "react-router-dom": "^4.1.1",
-    "react-scripts": "1.0.5",
+    "babel-cli": "6.14.0",
+    "babel-core": "6.14.0",
+    "express": "4.13.3",
+    "fs": "0.0.2",
+    "sql.js": "0.3.2",
     "web-push": "^3.2.2"
   },
-  "devDependencies": {
-    "react-scripts": "1.0.5"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "concurrently  \"npm run server\" \"npm run client\"",
+    "client": "babel-node start-client.js",
+    "server": "babel-node server.js",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "concurrently": "^3.1.0",
+    "eslint": "3.15.0",
+    "eslint-config-airbnb": "14.1.0",
+    "eslint-plugin-import": "2.2.0",
+    "eslint-plugin-jsx-a11y": "4.0.0",
+    "eslint-plugin-react": "6.9.0"
   }
 }

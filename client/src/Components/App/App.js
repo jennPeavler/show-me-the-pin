@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 
 import { pinballApiCall, gmapsApiCall, latLonPinballApiCall } from '../../apiCalls'
 import { latLongConversion } from '../../helperFunctions/latLongConversion'
-import {server} from '../../server'
+//import {server} from '../../server'
 import {LocationDisplay} from '../LocationDisplay/LocationDisplay'
 import LocatorButton from '../LocatorButton/LocatorButton'
 import {InspirationalQuote} from '../InspirationalQuote/InspirationalQuote'
@@ -171,7 +171,18 @@ class App extends Component {
                    btoa(String.fromCharCode.apply(null, new Uint8Array(rawAuthSecret))) :
                    '';
       endpoint = subscription.endpoint
-      fetch('./register', {
+      fetch('register', {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+          endpoint: subscription.endpoint,
+          key: key,
+          authSecret: authSecret
+        })
+      })
+      fetch('sendNotification', {
         method: 'post',
         headers: {
           'Content-type': 'application/json'
@@ -180,22 +191,10 @@ class App extends Component {
           endpoint: subscription.endpoint,
           key: key,
           authSecret: authSecret,
-        }),
-      });
-    });
-
-    fetch('./sendNotification', {
-      method: 'post',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        endpoint: endpoint,
-        key: key,
-        authSecret: authSecret,
-        payload: 'hi there',
-        delay: 1,
-        ttl: 1,
+          payload: 'hi there',
+          delay: 1,
+          ttl: 1
+        })
       })
     })
   }
