@@ -1,3 +1,5 @@
+
+
 self.addEventListener('install', (event) => {
   let cache1 = 'site-cache'
   let urlsToCache = [
@@ -16,6 +18,7 @@ self.addEventListener('install', (event) => {
 })
 
 self.addEventListener('fetch', event => {
+  console.log("im in the service worker file")
   event.respondWith(
     caches.match(event.request)
     .then(response => {

@@ -33,8 +33,8 @@ class App extends Component {
     let distanceApart = latLongConversion(10,100,20,200)
     this.featureDetection()
     this.askNotificationPermission()
-    // this.subscribeUserToPush()
-    this.alternativeCode()
+    this.subscribeUserToPush()
+    // this.alternativeCode()
 
   }
 
@@ -87,9 +87,21 @@ class App extends Component {
     false : true
   }
 
+  registerServiceWorker() {
+    return navigator.serviceWorker.register('service-worker.js')
+    .then(function(registration) {
+      console.log(registration)
+      return registration;
+    })
+    .catch(function(err) {
+      console.error('Unable to register service worker.', err)
+    })
+  }
+
   askNotificationPermission() {
     return new Promise((resolve, reject) => {
       const permissionResult = Notification.requestPermission(result => {
+        console.log(result);
         resolve(result)
       })
       if(permissionResult) {
@@ -111,23 +123,23 @@ class App extends Component {
     return new Promise(resolve => resolve(Notification.permission))
   }
 
-  // subscribeUserToPush() {
-  //   // return getRegistration()
-  //   // console.log(navigator.serviceWorker.ready)
-  //   navigator.serviceWorker.ready
-  //   .then(registration => {
-  //     console.log(registration);
-  //     const subscribeOptions = {
-  //       userVisibleOnly: true,
-  //       applicationServerKey: this.urlBase64ToUint8Array('BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U')
-  //     }
-  //     return registration.pushManager.subscribe(subscribeOptions)
-  //   })
-  //   .then(pushSubscription => {
-  //     console.log('Received PushSubscription:  ', JSON.stringify(pushSubscription))
-  //     return pushSubscription
-  //   })
-  // }
+  subscribeUserToPush() {
+    return this.registerServiceWorker()
+    .then(registration => {
+      const subscribeOptions = {
+        userVisibleOnly: true,
+        applicationServerKey: this.urlBase64ToUint8Array(
+          'BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U'
+        )
+      }
+      console.log(subscribeOptions.applicationServerKey);
+      return registration.pushManager.subscribe(subscribeOptions);
+    })
+    .then(pushSubscription => {
+      console.log('Received PushSubscription: ', JSON.stringify(pushSubscription));
+      return pushSubscription
+    })
+  }
 
   urlBase64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -139,65 +151,65 @@ class App extends Component {
     return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
   }
 
-  alternativeCode() {
-    var endpoint;
-    var key;
-    var authSecret;
-    let appKey = this.urlBase64ToUint8Array('BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U')
-
-    navigator.serviceWorker.register('service-worker.js')
-    .then(function(registration) {
-      // console.log(registration);
-      return registration.pushManager.getSubscription()
-      .then(function(subscription) {
-        // console.log(subscription);
-        if (subscription) {
-          return subscription;
-        }
-        return registration.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey:  appKey
-        });
-      });
-    })
-    .then(function(subscription) {
-      console.log(subscription);
-      var rawKey = subscription.getKey ? subscription.getKey('p256dh') : '';
-      key = rawKey ?
-            btoa(String.fromCharCode.apply(null, new Uint8Array(rawKey))) :
-            '';
-      var rawAuthSecret = subscription.getKey ? subscription.getKey('auth') : '';
-      authSecret = rawAuthSecret ?
-                   btoa(String.fromCharCode.apply(null, new Uint8Array(rawAuthSecret))) :
-                   '';
-      endpoint = subscription.endpoint
-      fetch('register', {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-          endpoint: subscription.endpoint,
-          key: key,
-          authSecret: authSecret
-        })
-      })
-      fetch('sendNotification', {
-        method: 'post',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          endpoint: subscription.endpoint,
-          key: key,
-          authSecret: authSecret,
-          payload: 'hi there',
-          delay: 1,
-          ttl: 1
-        })
-      })
-    })
-  }
+  // alternativeCode() {
+  //   var endpoint;
+  //   var key;
+  //   var authSecret;
+  //   let appKey = this.urlBase64ToUint8Array('BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U')
+  //
+  //   navigator.serviceWorker.register('service-worker.js')
+  //   .then(function(registration) {
+  //     // console.log(registration);
+  //     return registration.pushManager.getSubscription()
+  //     .then(function(subscription) {
+  //       // console.log(subscription);
+  //       if (subscription) {
+  //         return subscription;
+  //       }
+  //       return registration.pushManager.subscribe({
+  //         userVisibleOnly: true,
+  //         applicationServerKey:  appKey
+  //       });
+  //     });
+  //   })
+  //   .then(function(subscription) {
+  //     console.log(subscription);
+  //     var rawKey = subscription.getKey ? subscription.getKey('p256dh') : '';
+  //     key = rawKey ?
+  //           btoa(String.fromCharCode.apply(null, new Uint8Array(rawKey))) :
+  //           '';
+  //     var rawAuthSecret = subscription.getKey ? subscription.getKey('auth') : '';
+  //     authSecret = rawAuthSecret ?
+  //                  btoa(String.fromCharCode.apply(null, new Uint8Array(rawAuthSecret))) :
+  //                  '';
+  //     endpoint = subscription.endpoint
+  //     fetch('register', {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-type": "application/json"
+  //       },
+  //       body: JSON.stringify({
+  //         endpoint: subscription.endpoint,
+  //         key: key,
+  //         authSecret: authSecret
+  //       })
+  //     })
+  //     fetch('sendNotification', {
+  //       method: 'post',
+  //       headers: {
+  //         'Content-type': 'application/json'
+  //       },
+  //       body: JSON.stringify({
+  //         endpoint: subscription.endpoint,
+  //         key: key,
+  //         authSecret: authSecret,
+  //         payload: 'hi there',
+  //         delay: 1,
+  //         ttl: 1
+  //       })
+  //     })
+  //   })
+  // }
 
   handleClick() {
     console.log('i am clicked')

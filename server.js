@@ -11,7 +11,6 @@ webPush.setGCMAPIKey('BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhi
 app.post('/register', function(req, res) {
   //console.log('register', req.body);
   res.sendStatus(201)
-
 });
 
 app.post('/sendNotification', function(req, res) {
