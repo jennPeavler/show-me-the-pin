@@ -90,7 +90,6 @@ class App extends Component {
   registerServiceWorker() {
     return navigator.serviceWorker.register('service-worker.js')
     .then(function(registration) {
-      console.log(registration)
       return registration;
     })
     .catch(function(err) {
@@ -101,7 +100,6 @@ class App extends Component {
   askNotificationPermission() {
     return new Promise((resolve, reject) => {
       const permissionResult = Notification.requestPermission(result => {
-        console.log(result);
         resolve(result)
       })
       if(permissionResult) {
@@ -132,7 +130,6 @@ class App extends Component {
           'BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U'
         )
       }
-      console.log(subscribeOptions.applicationServerKey);
       return registration.pushManager.subscribe(subscribeOptions);
     })
     .then(pushSubscription => {
@@ -152,23 +149,31 @@ class App extends Component {
   }
 
   sendSubscriptionToBackEnd() {
-    return fetch('register', {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(this.subscribeUserToPush())
-    })
-    .then(response => {
-      if(!response.ok) {
-        throw new Error('Bad status code from server.')
-      }
-      return response.json()
-    })
-    .then(responseData => {
-      if(!(responseData.data && responseData.data.success)) {
-        throw new Error('Bad response from server')
-      }
+    this.subscribeUserToPush()
+    .then(pushSubscription => {
+      console.log(pushSubscription);
+      let subscription = JSON.stringify(pushSubscription)
+      console.log(subscription);
+      return fetch('register', {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: subscription
+      })
+      .then(response => {
+        console.log(response);
+        if(!response.ok) {
+          throw new Error('Bad status code from server.')
+        }
+        return response.json()
+      })
+      .then(responseData => {
+        console.log(responseData);
+        if(!(responseData.data && responseData.data.success)) {
+          throw new Error('Bad response from server')
+        }
+      })
     })
   }
   // alternativeCode() {
