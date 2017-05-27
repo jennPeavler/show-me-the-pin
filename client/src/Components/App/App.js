@@ -33,7 +33,7 @@ class App extends Component {
     let distanceApart = latLongConversion(10,100,20,200)
     this.featureDetection()
     this.askNotificationPermission()
-    this.subscribeUserToPush()
+    this.sendSubscriptionToBackEnd()
     // this.alternativeCode()
 
   }
@@ -151,6 +151,26 @@ class App extends Component {
     return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
   }
 
+  sendSubscriptionToBackEnd() {
+    return fetch('register', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(this.subscribeUserToPush())
+    })
+    .then(response => {
+      if(!response.ok) {
+        throw new Error('Bad status code from server.')
+      }
+      return response.json()
+    })
+    .then(responseData => {
+      if(!(responseData.data && responseData.data.success)) {
+        throw new Error('Bad response from server')
+      }
+    })
+  }
   // alternativeCode() {
   //   var endpoint;
   //   var key;
