@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch
+} from 'react-router-dom'
 
 import { pinballApiCall, gmapsApiCall, latLonPinballApiCall } from '../../apiCalls'
 import { latLongConversion } from '../../helperFunctions/latLongConversion'
-//import {server} from '../../server'
+import {Map} from '../Map/Map'
 import {LocationDisplay} from '../LocationDisplay/LocationDisplay'
 import LocatorButton from '../LocatorButton/LocatorButton'
 import {InspirationalQuote} from '../InspirationalQuote/InspirationalQuote'
 import {SearchBar} from '../SearchBar/SearchBar'
+import {NavBar} from '../NavBar/NavBar'
 import './App.css';
 
 class App extends Component {
@@ -254,13 +260,28 @@ class App extends Component {
       this.setState({ searched: searchResults })
   }
 
-  // findAllMatches(searchInput) {
-  //   const locations = Object.keys(this.data)
-  //
-  //   return searchInput ? locations.filter(location => location.includes(searchInput.toUpperCase()))
-  //   : locations.map(location => this.data[location].location)
-  // }
   render() {
+    const locationDisplay = () => {
+      return (
+        <LocationDisplay city={this.state.city}
+          state={this.state.state}
+          nearbyPins={this.state.nearbyPins}
+          searched={this.state.searched}
+          searchInput={this.state.searchInput}/>
+      )
+    }
+    const map = () => {
+      return(
+        <section>
+          <p>Map will go here!!!!!!!!!!🌈</p>
+          <Map mapElement={ <div className='mapelement' style={{ height: "300px"}}/> }
+               containerElement={ <div className='containerElement' style={{ height: "300px"}}/> }
+               userLocation={{lat: this.state.lat, long: this.state.long}}
+               nearbyPins={this.state.nearbyPins}/>
+        </section>
+      )
+    }
+
     return (
       <section className="App">
         <header>Pin<span id='show'>show</span></header>
@@ -269,12 +290,16 @@ class App extends Component {
           <LocatorButton id='locator' handleClick={this.handleClick.bind(this)}/>
           <InspirationalQuote id='quote' scrollQuote={this.state.quote} />
           <h2 id='intro-message'>Finding pinball locations near you....</h2>
-          <SearchBar search={this.search.bind(this)}/>
-          <LocationDisplay city={this.state.city}
-                           state={this.state.state}
-                           nearbyPins={this.state.nearbyPins}
-                           searched={this.state.searched}
-                           searchInput={this.state.searchInput}/>
+          <section id='controls-wrapper'>
+            <SearchBar search={this.search.bind(this)}/>
+            <NavBar />
+          </section>
+          <Router>
+            <Switch>
+              <Route path='/map' component={map} />
+              <Route exact path='/' component={locationDisplay} />
+            </Switch>
+          </Router>
         </main>
       </section>
     )

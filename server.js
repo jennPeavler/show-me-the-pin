@@ -9,7 +9,7 @@ webPush.setGCMAPIKey('BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhi
 
 
 app.post('/register', function(req, res) {
-  console.log(req);
+  console.log(req.body);
   res.sendStatus(201)
 });
 
