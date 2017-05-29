@@ -1,22 +1,18 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch
-} from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
-import { pinballApiCall, gmapsApiCall, latLonPinballApiCall } from '../../apiCalls'
-import { latLongConversion } from '../../helperFunctions/latLongConversion'
-import {Map} from '../Map/Map'
-import {LocationDisplay} from '../LocationDisplay/LocationDisplay'
-import LocatorButton from '../LocatorButton/LocatorButton'
-import {InspirationalQuote} from '../InspirationalQuote/InspirationalQuote'
-import {SearchBar} from '../SearchBar/SearchBar'
-import {NavBar} from '../NavBar/NavBar'
+import { pinballApiCall, gmapsApiCall, latLonPinballApiCall } from '../../helpers_apiCalls/apiCalls'
+import { latLongConversion } from '../../helpers_apiCalls/latLongConversion'
+import { Map } from '../Map/Map'
+import { LocationDisplay } from '../LocationDisplay/LocationDisplay'
+import { PopBumper} from '../PopBumper/PopBumper'
+import { InspirationalQuote } from '../InspirationalQuote/InspirationalQuote'
+import { SearchBar } from '../SearchBar/SearchBar'
+import { NavBar } from '../NavBar/NavBar'
+
 import './App.css';
 
-class App extends Component {
+export default class App extends Component {
   constructor() {
     super()
     this.state = {
@@ -34,17 +30,18 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.fetchData()
     this.verifyGeolocation()
-    let distanceApart = latLongConversion(10,100,20,200)
+    latLongConversion(10,100,20,200)
     this.featureDetection()
     this.askNotificationPermission()
     this.sendSubscriptionToBackEnd()
-    // this.alternativeCode()
-
   }
 
-  fetchData() {
+  componentDidMount() {
+    this.fetchPinballApiData()
+  }
+
+  fetchPinballApiData() {
     const machinePath ='machines.json'
     const regionPath ='regions.json'
     const locationTypePath ='location_types.json'
@@ -139,7 +136,6 @@ class App extends Component {
       return registration.pushManager.subscribe(subscribeOptions);
     })
     .then(pushSubscription => {
-      console.log('Received PushSubscription: ', JSON.stringify(pushSubscription));
       return pushSubscription
     })
   }
@@ -147,7 +143,7 @@ class App extends Component {
   urlBase64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
     const base64 = (base64String + padding)
-    .replace(/\-/g, '+')
+    .replace(/-/g, '+')
     .replace(/_/g, '/')
 
     const rawData = window.atob(base64);
@@ -157,9 +153,7 @@ class App extends Component {
   sendSubscriptionToBackEnd() {
     this.subscribeUserToPush()
     .then(pushSubscription => {
-      console.log(pushSubscription);
       let subscription = JSON.stringify(pushSubscription)
-      console.log(subscription);
       return fetch('register', {
         method: "POST",
         headers: {
@@ -168,7 +162,6 @@ class App extends Component {
         body: subscription
       })
       .then(response => {
-        console.log(response);
         if(!response.ok) {
           throw new Error('Bad status code from server.')
         }
@@ -181,73 +174,6 @@ class App extends Component {
         }
       })
     })
-  }
-  // alternativeCode() {
-  //   var endpoint;
-  //   var key;
-  //   var authSecret;
-  //   let appKey = this.urlBase64ToUint8Array('BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U')
-  //
-  //   navigator.serviceWorker.register('service-worker.js')
-  //   .then(function(registration) {
-  //     // console.log(registration);
-  //     return registration.pushManager.getSubscription()
-  //     .then(function(subscription) {
-  //       // console.log(subscription);
-  //       if (subscription) {
-  //         return subscription;
-  //       }
-  //       return registration.pushManager.subscribe({
-  //         userVisibleOnly: true,
-  //         applicationServerKey:  appKey
-  //       });
-  //     });
-  //   })
-  //   .then(function(subscription) {
-  //     console.log(subscription);
-  //     var rawKey = subscription.getKey ? subscription.getKey('p256dh') : '';
-  //     key = rawKey ?
-  //           btoa(String.fromCharCode.apply(null, new Uint8Array(rawKey))) :
-  //           '';
-  //     var rawAuthSecret = subscription.getKey ? subscription.getKey('auth') : '';
-  //     authSecret = rawAuthSecret ?
-  //                  btoa(String.fromCharCode.apply(null, new Uint8Array(rawAuthSecret))) :
-  //                  '';
-  //     endpoint = subscription.endpoint
-  //     fetch('register', {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-type": "application/json"
-  //       },
-  //       body: JSON.stringify({
-  //         endpoint: subscription.endpoint,
-  //         key: key,
-  //         authSecret: authSecret
-  //       })
-  //     })
-  //     fetch('sendNotification', {
-  //       method: 'post',
-  //       headers: {
-  //         'Content-type': 'application/json'
-  //       },
-  //       body: JSON.stringify({
-  //         endpoint: subscription.endpoint,
-  //         key: key,
-  //         authSecret: authSecret,
-  //         payload: 'hi there',
-  //         delay: 1,
-  //         ttl: 1
-  //       })
-  //     })
-  //   })
-  // }
-
-  handleClick() {
-    console.log('i am clicked')
-  }
-
-  scrollQuote() {
-    console.log('scrolling')
   }
 
   search(searchInput) {
@@ -273,7 +199,6 @@ class App extends Component {
     const map = () => {
       return(
         <section>
-          <p>Map will go here!!!!!!!!!!🌈</p>
           <Map mapElement={ <div className='mapelement' style={{ height: "300px"}}/> }
                containerElement={ <div className='containerElement' style={{ height: "300px"}}/> }
                userLocation={{lat: this.state.lat, long: this.state.long}}
@@ -287,24 +212,21 @@ class App extends Component {
         <header>Pin<span id='show'>show</span></header>
         <div id='divider'></div>
         <main>
-          <LocatorButton id='locator' handleClick={this.handleClick.bind(this)}/>
-          <InspirationalQuote id='quote' scrollQuote={this.state.quote} />
+          <PopBumper id='pop-bumper' />
+          <InspirationalQuote id='quote' />
           <h2 id='intro-message'>Finding pinball locations near you....</h2>
           <section id='controls-wrapper'>
             <SearchBar search={this.search.bind(this)}/>
             <NavBar />
           </section>
-          <Router>
+
             <Switch>
               <Route path='/map' component={map} />
               <Route exact path='/' component={locationDisplay} />
             </Switch>
-          </Router>
+
         </main>
       </section>
     )
   }
 }
-
-
-export default App;
