@@ -290,13 +290,16 @@ header {
   background: #F6ECCC;
 }
 
-/*#divider2 {
-  width: 95%;
-  height: 2px;
-  background: #F6ECCC;
-  margin-top: 50px;
+.mapelement {
+  width: 98%;
+  height: 500px;
+  border: 10px solid #450601;
+}
+
+.containerElement {
+  border: 5px solid #B4869F;
+  width: 81%;
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  border-radius: 5px;
-}*/
+}

@@ -199,8 +199,8 @@ export default class App extends Component {
     const map = () => {
       return(
         <section>
-          <Map mapElement={ <div className='mapelement' style={{ height: "300px"}}/> }
-               containerElement={ <div className='containerElement' style={{ height: "300px"}}/> }
+          <Map mapElement={ <div className='mapelement' /> }
+               containerElement={ <div className='containerElement' /> }
                userLocation={{lat: this.state.lat, long: this.state.long}}
                nearbyPins={this.state.nearbyPins}/>
         </section>
