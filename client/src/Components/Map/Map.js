@@ -4,7 +4,6 @@ import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
 export const Map = withGoogleMap(({ userLocation, nearbyPins }) => {
 
   const pinLocations = nearbyPins.map((location, i) => {
-    console.log(location);
     return <Marker key={i}
                    position={{ lat: Number(location.lat), lng: Number(location.lon) }} />
   })

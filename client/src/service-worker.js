@@ -1,5 +1,3 @@
-
-
 self.addEventListener('install', (event) => {
   let cache1 = 'site-cache'
   let urlsToCache = [

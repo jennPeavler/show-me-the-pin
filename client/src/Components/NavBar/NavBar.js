@@ -1,14 +1,9 @@
 import React from 'react'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
-import {LocationDisplay} from '../LocationDisplay/LocationDisplay'
+import { Link } from 'react-router-dom'
 
 export const NavBar = () => {
   return (
-    <Router>
+
       <section id='nav-bar'>
         <Link to='/'>
           <button className='nav-btns' id='list-btn'>
@@ -21,6 +16,6 @@ export const NavBar = () => {
           </button>
         </Link>
       </section>
-    </Router>
+
   )
 }
