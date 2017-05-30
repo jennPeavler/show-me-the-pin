@@ -1,20 +1,47 @@
 import React from 'react'
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
 
-export const Map = withGoogleMap(({ userLocation, nearbyPins }) => {
+export const Map = withGoogleMap(({ userLocation, nearbyPins, searched, searchInput }) => {
 
   const pinLocations = nearbyPins.map((location, i) => {
-    return <Marker key={i}
-                   position={{ lat: Number(location.lat), lng: Number(location.lon) }} />
+    if(!searched.length && searchInput === true) {
+      return
+    }
+    else if(searchInput === false) {
+      return <Marker key={i}
+        position={{ lat: Number(location.lat), lng: Number(location.lon) }} />
+    }
   })
+
+  const searchedLocations = searched.map((location, i) => {
+    if(searched.length && searchInput === true) {
+      return <Marker key={i}
+        position={{ lat: Number(location.lat), lng: Number(location.lon) }} />
+    }
+  })
+
+  // const pinLocations = () => {
+  //   console.log(searched.length);
+  //   if(!searched.length) {
+  //     nearbyPins.map((location, i) => {
+  //       console.log(location);
+  //       return <Marker key={i}
+  //                      position={{ lat: Number(location.lat), lng: Number(location.lon) }} />
+  //     })
+  //   }
+  // }
+
+
+
 
   return !userLocation.lat&&nearbyPins.length ? <div>Loading...</div> :
     <GoogleMap
-      defaultZoom={12}
+      defaultZoom={10}
       defaultCenter={{ lat: userLocation.lat , lng: userLocation.long }}>
         <Marker position={{ lat: userLocation.lat, lng: userLocation.long }}
                 icon={'http://web-marketing-formula.com/wp-content/plugins/sociable/images/bluedot.png'}/>
         {pinLocations}
+        {searchedLocations}
     </GoogleMap>
 })
 
