@@ -202,7 +202,9 @@ export default class App extends Component {
           <Map mapElement={ <div className='mapelement' /> }
                containerElement={ <div className='containerElement' /> }
                userLocation={{lat: this.state.lat, long: this.state.long}}
-               nearbyPins={this.state.nearbyPins}/>
+               nearbyPins={this.state.nearbyPins}
+               searched={this.state.searched}
+               searchInput={this.state.searchInput}/>
         </section>
       )
     }
