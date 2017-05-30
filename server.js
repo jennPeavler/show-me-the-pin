@@ -1,16 +1,31 @@
 const webPush = require('web-push')
 const express = require('express')
-var bodyParser = require('body-parser')
 const app = express()
+var bodyParser = require('body-parser')
+const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/show_me_the_pins';
+const promise = require('bluebird');
+const pgp = require('pg-promise')({
+    promiseLib: promise
+});
+const db = pgp(connectionString);
 app.set('port', (process.env.PORT || 3001))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 webPush.setGCMAPIKey('BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U');
 
 
-app.post('/register', function(req, res) {
+app.post('/api/save-subscription', function(req, res) {
   console.log(req.body);
-  res.sendStatus(201)
+  db
+  .none('INSERT INTO subscriptions(subscription) values($1)',
+  [req.body])
+  .then(()=> {
+    res.sendStatus(201)
+  })
+  .catch((err) => {
+    res.sendStatus(500);
+  })
+
 });
 
 app.post('/sendNotification', function(req, res) {

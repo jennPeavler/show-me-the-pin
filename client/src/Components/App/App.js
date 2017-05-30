@@ -154,7 +154,7 @@ export default class App extends Component {
     this.subscribeUserToPush()
     .then(pushSubscription => {
       let subscription = JSON.stringify(pushSubscription)
-      return fetch('register', {
+      return fetch('api/save-subscription', {
         method: "POST",
         headers: {
           "Content-type": "application/json"
