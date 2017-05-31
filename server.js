@@ -14,19 +14,39 @@ app.use(bodyParser.json());
 webPush.setGCMAPIKey('BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U');
 
 
-app.post('/api/save-subscription', function(req, res) {
-  console.log(req.body);
-  db
-  .none('INSERT INTO subscriptions(subscription) values($1)',
-  [req.body])
+// const vapidKeys = {
+//   publicKey: 'BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U',
+//   privateKey: 'H7eTw9rLYYyrML9fDIqkhloYjUPo11y5cJ8zng1hIPA'
+// }
+//
+// webpush.setVapidDetails(
+//   'mailto:jenn.peavler@gmail.com',
+//   vapidKeys.publickKey,
+//   vapidKeys.privateKey
+// )
+
+app.post('/api/save-subscription', (req, res) => {
+  console.log(req.body)
+  db.none('INSERT INTO subscriptions(subscription) values($1)', [req.body])
   .then(()=> {
     res.sendStatus(201)
   })
   .catch((err) => {
     res.sendStatus(500);
   })
-
 });
+
+app.get('/api/save-subscription', (req, res, next) => {
+  db.any('select * from subscriptions')
+  .then(data => {
+    console.log(data);
+    res.status(200).json({
+      status: 'success',
+      data: data,
+      message: 'Retrieved push subscriptions'
+    })
+  }).catch(err=>next(err))
+})
 
 app.post('/sendNotification', function(req, res) {
   //console.log('notification', req.body);
@@ -48,6 +68,7 @@ app.post('/sendNotification', function(req, res) {
     });
   }, req.body.delay * 1000);
 });
+
 
 
 app.listen(app.get('port'), () => {
