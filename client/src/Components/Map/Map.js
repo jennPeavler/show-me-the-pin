@@ -1,5 +1,5 @@
 import React from 'react'
-import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
+import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 
 export const Map = withGoogleMap(({ userLocation, nearbyPins, searched, searchInput }) => {
 
@@ -9,7 +9,20 @@ export const Map = withGoogleMap(({ userLocation, nearbyPins, searched, searchIn
     }
     else if(searchInput === false) {
       return <Marker key={i}
-        position={{ lat: Number(location.lat), lng: Number(location.lon) }} />
+              position={{ lat: Number(location.lat), lng: Number(location.lon) }}
+              onMouseOver={()=> {
+                console.log('i am mousing over', location.name)
+                return (
+                  <div>
+                    <InfoWindow>
+                      <div>{location.name}</div>
+                    </InfoWindow>
+
+                  </div>
+                )
+              }}
+              >
+        </Marker>
     }
   })
 
