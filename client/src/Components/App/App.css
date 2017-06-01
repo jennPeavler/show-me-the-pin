@@ -304,3 +304,25 @@ header {
   margin-left: auto;
   margin-right: auto;
 }
+
+#location-card-display {
+  position: relative;
+  margin: 0 auto;
+  width: 40%;
+  text-align: center;
+  color: #F6ECCC;
+  border: 5px solid #B4869F;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+}
+
+.location-header {
+  background-color: #B4869F;
+  height: 30px;
+  padding: 3%;
+  color: #191919;
+  margin-top: 0;
+  border: 5px solid #B4869F;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+}
