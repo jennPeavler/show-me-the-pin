@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
-
+// const webPush = require('web-push')
 import { pinballApiCall, gmapsApiCall, latLonPinballApiCall } from '../../helpers_apiCalls/apiCalls'
 import { latLongConversion } from '../../helpers_apiCalls/latLongConversion'
 import { Map } from '../Map/Map'
 import { LocationDisplay } from '../LocationDisplay/LocationDisplay'
+import { LocationCard } from '../LocationCard/LocationCard'
 import { PopBumper} from '../PopBumper/PopBumper'
 import { InspirationalQuote } from '../InspirationalQuote/InspirationalQuote'
 import { SearchBar } from '../SearchBar/SearchBar'
@@ -78,6 +79,7 @@ export default class App extends Component {
   fetchNearbyPins(lat, long) {
     latLonPinballApiCall(lat, long)
     .then( nearbyPinData => {
+      // console.log(nearbyPinData);
       const pinsInOrder = nearbyPinData.locations.sort((a,z) => {
         return a.name.toUpperCase() < z.name.toUpperCase() ? -1 : 1
       })
@@ -133,6 +135,7 @@ export default class App extends Component {
           'BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U'
         )
       }
+      console.log(registration);
       return registration.pushManager.subscribe(subscribeOptions);
     })
     .then(pushSubscription => {
@@ -153,6 +156,7 @@ export default class App extends Component {
   sendSubscriptionToBackEnd() {
     this.subscribeUserToPush()
     .then(pushSubscription => {
+      console.log(pushSubscription);
       let subscription = JSON.stringify(pushSubscription)
       return fetch('api/save-subscription', {
         method: "POST",
@@ -186,6 +190,14 @@ export default class App extends Component {
       this.setState({ searched: searchResults })
   }
 
+  fetchSubscriptions() {
+    fetch('http://localhost:3001/api/save-subscription')
+  }
+
+  handleClick() {
+    console.log('clicking a location');
+  }
+
   render() {
     const locationDisplay = () => {
       return (
@@ -193,9 +205,11 @@ export default class App extends Component {
           state={this.state.state}
           nearbyPins={this.state.nearbyPins}
           searched={this.state.searched}
-          searchInput={this.state.searchInput}/>
+          searchInput={this.state.searchInput}
+          handleClick={this.handleClick.bind(this)}/>
       )
     }
+
     const map = () => {
       return(
         <section>
@@ -207,6 +221,14 @@ export default class App extends Component {
                searchInput={this.state.searchInput}/>
         </section>
       )
+    }
+
+    const location = ({ match }) => {
+        return (
+          <section>
+            <LocationCard match={match} nearbyPins={this.state.nearbyPins} />
+          </section>
+        )
     }
 
     return (
@@ -225,6 +247,7 @@ export default class App extends Component {
             <Switch>
               <Route path='/map' component={map} />
               <Route exact path='/' component={locationDisplay} />
+              <Route path='/:id' component={location} />
             </Switch>
 
         </main>

@@ -1,6 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-export const LocationDisplay = ({ nearbyPins, searched, searchInput }) => {
+export const LocationDisplay = ({ nearbyPins, searched, searchInput, match }) => {
   if(!searched.length && searchInput === true){
     return (
       <div id='locations-container'>
@@ -13,7 +14,9 @@ export const LocationDisplay = ({ nearbyPins, searched, searchInput }) => {
       <div id='locations-container'>
         {nearbyPins.map( location => {
           return (
-            <p className='location-name' key={location.name}>{location.name}</p>
+            <Link className='location-name' key={location.id} to={`/${location.id}`}>
+              <p key={location.name}>{location.name}</p>
+            </Link>
           )
         })}
       </div>
@@ -24,7 +27,9 @@ export const LocationDisplay = ({ nearbyPins, searched, searchInput }) => {
       <div id='locations-container'>
         {searched.map( location => {
           return (
-            <p className='location-name' key={location.name}>{location.name}</p>
+            <Link className='location-name' key={location.id} to={`/${location.id}`}>
+              <p key={location.name}>{location.name}</p>
+            </Link>
           )
         })}
       </div>
