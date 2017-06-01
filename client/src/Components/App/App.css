@@ -246,6 +246,7 @@ header {
   padding: 1px;
   text-align: left;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .location-name:hover {

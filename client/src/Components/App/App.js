@@ -224,8 +224,6 @@ export default class App extends Component {
     }
 
     const location = ({ match }) => {
-        // <p>{match.params.id}</p>
-        // <LocationCard match={match} nearbyPins={this.state.nearbyPins} />
         return (
           <section>
             <LocationCard match={match} nearbyPins={this.state.nearbyPins} />

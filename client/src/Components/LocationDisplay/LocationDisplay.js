@@ -14,8 +14,8 @@ export const LocationDisplay = ({ nearbyPins, searched, searchInput, match }) =>
       <div id='locations-container'>
         {nearbyPins.map( location => {
           return (
-            <Link key={location.id} to={`/${location.id}`}>
-              <p className='location-name' key={location.name}>{location.name}</p>
+            <Link className='location-name' key={location.id} to={`/${location.id}`}>
+              <p key={location.name}>{location.name}</p>
             </Link>
           )
         })}
@@ -27,7 +27,9 @@ export const LocationDisplay = ({ nearbyPins, searched, searchInput, match }) =>
       <div id='locations-container'>
         {searched.map( location => {
           return (
-            <p className='location-name' key={location.name}>{location.name}</p>
+            <Link className='location-name' key={location.id} to={`/${location.id}`}>
+              <p key={location.name}>{location.name}</p>
+            </Link>
           )
         })}
       </div>
