@@ -39,6 +39,10 @@ export default class App extends Component {
     this.sendSubscriptionToBackEnd()
   }
 
+  findPinWithinRange() {
+
+  }
+
   componentDidMount() {
     this.fetchPinballApiData()
   }
@@ -204,7 +208,7 @@ export default class App extends Component {
 
   handleMarkerClick(location) {
     let newState = []
-    
+
     this.state.nearbyPins.forEach(pin => {
       if(pin.name===location.name) {
         pin.clicked = !pin.clicked
