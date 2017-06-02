@@ -40,7 +40,7 @@ export default class App extends Component {
   }
 
   findPinWithinRange() {
-
+    console.log(this.state.lat, this.state.long);
   }
 
   componentDidMount() {
