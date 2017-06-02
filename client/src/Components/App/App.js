@@ -33,14 +33,19 @@ export default class App extends Component {
 
   componentWillMount() {
     this.verifyGeolocation()
-    latLongConversion(10,100,20,200)
     this.featureDetection()
     this.askNotificationPermission()
     this.sendSubscriptionToBackEnd()
   }
 
-  findPinWithinRange() {
-    console.log(this.state.lat, this.state.long);
+  findPinsWithinRange() {
+    //determines is user is within 500 fto of a pinball machine
+    this.state.nearbyPins.forEach(pin => {
+      if(latLongConversion(Number(this.state.lat), Number(this.state.long), Number(pin.lat), Number(pin.lon)) < 0.15) {
+        console.log('pinball nearby');
+      }
+
+    })
   }
 
   componentDidMount() {
@@ -92,6 +97,7 @@ export default class App extends Component {
         pin.clicked = false
       })
       this.setState({nearbyPins: pinsInOrder})
+      this.findPinsWithinRange()
     })
   }
 
