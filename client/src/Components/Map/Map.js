@@ -21,7 +21,12 @@ export const Map = withGoogleMap(({ userLocation, nearbyPins, searched, searchIn
   const searchedLocations = searched.map((location, i) => {
     if(searched.length && searchInput === true) {
       return <Marker key={i}
-        position={{ lat: Number(location.lat), lng: Number(location.lon) }} />
+        position={{ lat: Number(location.lat), lng: Number(location.lon) }}
+        onClick={()=>handleMarkerClick(location)}>
+        { location.clicked === true && (
+          <InfoWindow onCloseClick={()=>handleMarkerClick(location)}><p>{location.name}</p></InfoWindow>
+        )}
+        </Marker>
     }
   })
 
