@@ -26,7 +26,8 @@ export default class App extends Component {
       state: '',
       nearbyPins: [],
       searched: [],
-      searchInput: false
+      searchInput: false,
+      clickedMarker: false
     }
   }
 
@@ -82,6 +83,9 @@ export default class App extends Component {
       // console.log(nearbyPinData);
       const pinsInOrder = nearbyPinData.locations.sort((a,z) => {
         return a.name.toUpperCase() < z.name.toUpperCase() ? -1 : 1
+      })
+      pinsInOrder.forEach(pin => {
+        pin.clicked = false
       })
       this.setState({nearbyPins: pinsInOrder})
     })
@@ -198,6 +202,18 @@ export default class App extends Component {
     console.log('clicking a location');
   }
 
+  handleMarkerClick(location) {
+    let newState = []
+    
+    this.state.nearbyPins.forEach(pin => {
+      if(pin.name===location.name) {
+        pin.clicked = !pin.clicked
+      }
+      newState.push(pin)
+    })
+    this.setState({nearbyPins: newState})
+  }
+
   render() {
     const locationDisplay = () => {
       return (
@@ -218,7 +234,8 @@ export default class App extends Component {
                userLocation={{lat: this.state.lat, long: this.state.long}}
                nearbyPins={this.state.nearbyPins}
                searched={this.state.searched}
-               searchInput={this.state.searchInput}/>
+               searchInput={this.state.searchInput}
+               handleMarkerClick={this.handleMarkerClick.bind(this)} />
         </section>
       )
     }
