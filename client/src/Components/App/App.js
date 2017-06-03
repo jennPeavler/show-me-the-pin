@@ -46,8 +46,9 @@ export default class App extends Component {
     console.log(this.state.nearbyPins);
     this.state.nearbyPins.forEach(pin => {
       if(latLongConversion(39.715386, -104.987317, Number(pin.lat), Number(pin.lon)) < 0.15) {
-        console.log('pinball nearby');
-        this.fetchSubscriptions();
+        console.log(pin);
+        this.registerServiceWorker(pin.name)
+        this.fetchSubscriptions()
       }
 
     })
@@ -135,14 +136,17 @@ export default class App extends Component {
     false : true
   }
 
-  registerServiceWorker() {
+  registerServiceWorker(locationName) {
     return navigator.serviceWorker.register('service-worker.js')
     .then(registration => {
-      console.log(registration);
-      registration.showNotification('Yo Yo Yo')
-      registration.showNotification('Why wont this work')
-      registration.showNotification('Does it only send something once?')
-      return registration;
+
+      if(locationName) {
+        registration.showNotification('There are pinballs nearby!  Go play them at ' + locationName )
+        .then(console.log('success'))
+      }
+
+
+      return registration
     })
     .catch(err => {
       console.error('Unable to register service worker.', err)
