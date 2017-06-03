@@ -28,8 +28,8 @@ header {
 
 #pop-bumper-button {
   background: #F6ECCC;
-  height: 31vh;
-  width: 31vh;
+  height: 30vh;
+  width: 30vh;
   border: none;
   border-radius: 50%;
   display: flex;
@@ -40,15 +40,11 @@ header {
   outline: none;
 }
 
-/*#pop-bumper-button:hover {
-  background: #B4869F;
-}*/
-
 #inner-oval {
   background: #F6ECCC;
   color: #191919;
-  height: 19vh;
-  width: 19vh;
+  height: 18vh;
+  width: 18vh;
   border: none;
   border-radius: 50%;
   z-index: 1;
