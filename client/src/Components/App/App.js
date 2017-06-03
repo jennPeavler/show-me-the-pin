@@ -45,7 +45,7 @@ export default class App extends Component {
     //determines is user is within 500 fto of a pinball machine
     console.log(this.state.nearbyPins);
     this.state.nearbyPins.forEach(pin => {
-      if(latLongConversion(39.715386, -104.987317, Number(pin.lat), Number(pin.lon)) < 0.15) {
+      if(latLongConversion(Number(this.state.lat), Number(this.state.long), Number(pin.lat), Number(pin.lon)) < 0.15) {
         console.log(pin);
         this.registerServiceWorker(pin.name)
         this.fetchSubscriptions()
