@@ -25,3 +25,11 @@ self.addEventListener('fetch', event => {
     })
   )
 })
+
+self.addEventListener('push', event => {
+  console.log(event);
+  event.data ? console.log('this push event has data') : console.log('push has no data')
+
+  event.waitUntil(self.registration.showNotification('In Service workier'))
+
+})

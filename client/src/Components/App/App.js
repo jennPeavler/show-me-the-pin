@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
-// const webPush = require('web-push')
+// import { webPush } from 'web-push'
+
 import { pinballApiCall, gmapsApiCall, latLonPinballApiCall } from '../../helpers_apiCalls/apiCalls'
 import { latLongConversion } from '../../helpers_apiCalls/latLongConversion'
+import { urlBase64ToUint8Array } from '../../helpers_apiCalls/urlBase64ToUint8Array'
 import { Map } from '../Map/Map'
 import { LocationDisplay } from '../LocationDisplay/LocationDisplay'
 import { LocationCard } from '../LocationCard/LocationCard'
@@ -12,6 +14,7 @@ import { SearchBar } from '../SearchBar/SearchBar'
 import { NavBar } from '../NavBar/NavBar'
 
 import './App.css';
+const webPush = require('web-push')
 
 export default class App extends Component {
   constructor() {
@@ -40,9 +43,11 @@ export default class App extends Component {
 
   findPinsWithinRange() {
     //determines is user is within 500 fto of a pinball machine
+    console.log(this.state.nearbyPins);
     this.state.nearbyPins.forEach(pin => {
-      if(latLongConversion(Number(this.state.lat), Number(this.state.long), Number(pin.lat), Number(pin.lon)) < 0.15) {
+      if(latLongConversion(39.715386, -104.987317, Number(pin.lat), Number(pin.lon)) < 0.15) {
         console.log('pinball nearby');
+        this.fetchSubscriptions();
       }
 
     })
@@ -101,21 +106,6 @@ export default class App extends Component {
     })
   }
 
-  featureDetection() {
-    return !('serviceWorker' in navigator) || !('PushManager' in window) ?
-    false : true
-  }
-
-  registerServiceWorker() {
-    return navigator.serviceWorker.register('service-worker.js')
-    .then(function(registration) {
-      return registration;
-    })
-    .catch(function(err) {
-      console.error('Unable to register service worker.', err)
-    })
-  }
-
   askNotificationPermission() {
     return new Promise((resolve, reject) => {
       const permissionResult = Notification.requestPermission(result => {
@@ -140,31 +130,41 @@ export default class App extends Component {
     return new Promise(resolve => resolve(Notification.permission))
   }
 
+  featureDetection() {
+    return !('serviceWorker' in navigator) || !('PushManager' in window) ?
+    false : true
+  }
+
+  registerServiceWorker() {
+    return navigator.serviceWorker.register('service-worker.js')
+    .then(registration => {
+      console.log(registration);
+      registration.showNotification('Yo Yo Yo')
+      registration.showNotification('Why wont this work')
+      registration.showNotification('Does it only send something once?')
+      return registration;
+    })
+    .catch(err => {
+      console.error('Unable to register service worker.', err)
+    })
+  }
+
   subscribeUserToPush() {
     return this.registerServiceWorker()
     .then(registration => {
       const subscribeOptions = {
         userVisibleOnly: true,
-        applicationServerKey: this.urlBase64ToUint8Array(
+        applicationServerKey: urlBase64ToUint8Array(
           'BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U'
         )
       }
       console.log(registration);
+
       return registration.pushManager.subscribe(subscribeOptions);
     })
     .then(pushSubscription => {
       return pushSubscription
     })
-  }
-
-  urlBase64ToUint8Array(base64String) {
-    const padding = '='.repeat((4 - base64String.length % 4) % 4);
-    const base64 = (base64String + padding)
-    .replace(/-/g, '+')
-    .replace(/_/g, '/')
-
-    const rawData = window.atob(base64);
-    return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
   }
 
   sendSubscriptionToBackEnd() {
@@ -205,7 +205,57 @@ export default class App extends Component {
   }
 
   fetchSubscriptions() {
-    fetch('http://localhost:3001/api/save-subscription')
+    fetch('http://localhost:3000/api/save-subscription')
+    // .then( response => response.json())
+    // .then(res => {
+    //   this.doTheThing(res.data[0])
+    //   // console.log(res);
+    //   // console.log(res.data[0])
+    // })
+    // .then(() => {
+    //   this.sendWebPushKeys()
+    // })
+  }
+
+  sendWebPushKeys() {
+    const vapidKeys = {
+      publicKey: 'BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U',
+      privateKey: 'H7eTw9rLYYyrML9fDIqkhloYjUPo11y5cJ8zng1hIPA'
+    }
+
+    webPush.setVapidDetails(
+      'mailto:jenn.peavler@gmail.com',
+      'BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U',
+      'H7eTw9rLYYyrML9fDIqkhloYjUPo11y5cJ8zng1hIPA'
+    )
+  }
+
+  doTheThing(subscription) {
+    const notificationSub = subscription.subscription
+
+    // console.log(newSubscription);
+    this.sendWebPushKeys()
+    // const notification = {
+    //   notification: {
+    //     title: "PinShow Notification",
+    //     body: "You are near a pinball machine!",
+    //     icon: "./pinball-favicon.png"
+    //   }
+    // }
+    const options = {
+      // gcmAPIKey: '< GCM API Key >',
+      // vapidDetails: {
+      //   subject: '< \'mailto\' Address or URL >',
+      //   publicKey: '< URL Safe Base64 Encoded Public Key >',
+      //   privateKey: '< URL Safe Base64 Encoded Private Key >'
+      // },
+      // TTL: <Number>,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
+    }
+    const notification = 'Pinball machine nearby'
+    return webPush.sendNotification(notificationSub, notification, options)
   }
 
   handleClick() {
