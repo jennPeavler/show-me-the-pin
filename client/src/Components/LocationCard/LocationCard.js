@@ -11,7 +11,7 @@ export const LocationCard = ({ match, nearbyPins }) => {
               <div>
                 <h3>Machines:</h3>
                 {location.machine_names.map((machine ,index) => {
-                  return <p key={index}>{machine}</p>
+                  return <p className='machine-names' key={index}>{machine}</p>
                 })}
               </div>
             </div>

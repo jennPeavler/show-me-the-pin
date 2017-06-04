@@ -1,11 +1,10 @@
 import React from 'react';
 import { LocationDisplay } from './LocationDisplay';
-import fetchMock from 'fetch-mock'
 import { mount, shallow } from 'enzyme'
 import nearbyPins from '../../mockData/nearbyPins'
-import { browserHistory } from 'react-router'
 
-describe(LocationDisplay, () => {
+
+describe('LocationDisplay', () => {
   it('should render', () => {
     const wrapper = shallow(<LocationDisplay nearbyPins={nearbyPins.locations} searched={[]} />)
 
