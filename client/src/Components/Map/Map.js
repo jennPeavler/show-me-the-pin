@@ -8,7 +8,7 @@ export const Map = withGoogleMap(({ userLocation, nearbyPins, searched, searchIn
       return
     }
     else if(searchInput === false) {
-      return <Marker key={i}
+      return <Marker className='location-marker' key={i}
               position={{ lat: Number(location.lat), lng: Number(location.lon) }}
               onClick={()=>handleMarkerClick(location)}>
               { location.clicked === true && (
