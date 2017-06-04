@@ -13,6 +13,7 @@
     "react-google-maps": "^6.3.0",
     "sql.js": "0.3.2",
     "web-push": "^3.2.2"
+
   },
   "scripts": {
     "start": "concurrently  \"npm run server\" \"npm run client\"",

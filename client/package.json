@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "enzyme": "^2.8.2",
+    "fetch-mock": "^5.11.0",
     "google-maps-react": "^1.0.19",
     "react": "^15.5.4",
+    "react-addons-test-utils": "^15.5.1",
     "react-dom": "^15.5.4",
     "react-google-maps": "^6.3.0",
     "react-router-dom": "^4.1.1",
@@ -12,7 +15,8 @@
     "web-push": "^3.2.2"
   },
   "devDependencies": {
-    "react-scripts": "1.0.5"
+    "react-scripts": "1.0.5",
+    "service-worker-mock": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
