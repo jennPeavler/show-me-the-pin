@@ -5,7 +5,7 @@ export const Map = withGoogleMap(({ userLocation, nearbyPins, searched, searchIn
 
   const pinLocations = nearbyPins.map((location, i) => {
     if(!searched.length && searchInput === true) {
-      return
+      return 
     }
     else if(searchInput === false) {
       return <Marker className='location-marker' key={i}
