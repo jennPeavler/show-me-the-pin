@@ -42,28 +42,6 @@ export default class App extends Component {
     }
   }
 
-  findPinsWithinRange() {
-    //lat = 39.715386 long=-104.987137
-    //lat=39.9832044 long=-105.2499644
-    this.state.nearbyPins.forEach(pin => {
-      if(latLongConversion(Number(this.state.lat), Number(this.state.long), Number(pin.lat), Number(pin.lon)) < 0.15) {
-        console.log(pin);
-        this.registerServiceWorker(pin.name)
-        this.fetchSubscriptions()
-      }
-      // if(latLongConversion( 39.715386, -104.987137, Number(pin.lat), Number(pin.lon)) < 0.15) {
-      //   console.log(pin);
-      //   this.registerServiceWorker(pin.name)
-      //   this.fetchSubscriptions()
-      // }
-      // if(latLongConversion(39.9832044, -105.2499644, Number(pin.lat), Number(pin.lon)) < 0.15) {
-      //   console.log(pin);
-      //   this.registerServiceWorker(pin.name)
-      //   this.fetchSubscriptions()
-      // }
-    })
-  }
-
   componentDidMount() {
     this.fetchPinballApiData()
   }
@@ -113,6 +91,28 @@ export default class App extends Component {
       })
       this.setState({nearbyPins: pinsInOrder})
       this.findPinsWithinRange()
+    })
+  }
+
+  findPinsWithinRange() {
+    //lat = 39.715386 long=-104.987137
+    //lat=39.9832044 long=-105.2499644
+    this.state.nearbyPins.forEach(pin => {
+      if(latLongConversion(Number(this.state.lat), Number(this.state.long), Number(pin.lat), Number(pin.lon)) < 0.15) {
+        console.log(pin);
+        this.registerServiceWorker(pin.name)
+        this.fetchSubscriptions()
+      }
+      // if(latLongConversion( 39.715386, -104.987137, Number(pin.lat), Number(pin.lon)) < 0.15) {
+      //   console.log(pin);
+      //   this.registerServiceWorker(pin.name)
+      //   this.fetchSubscriptions()
+      // }
+      // if(latLongConversion(39.9832044, -105.2499644, Number(pin.lat), Number(pin.lon)) < 0.15) {
+      //   console.log(pin);
+      //   this.registerServiceWorker(pin.name)
+      //   this.fetchSubscriptions()
+      // }
     })
   }
 
