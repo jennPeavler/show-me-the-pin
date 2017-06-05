@@ -68,4 +68,33 @@ describe('App', () => {
     expect(app.state.long).toBe(100)
   })
 
+
+  it.skip('should verify that geolocation is in the browser', () {
+
+  })
+
+  it.skip('should verify that serviceWorker is in navigator and PushManager is in window', () => {
+
+  })
+
+  it.skip('should ask for permission before sending notifications', () => {
+
+  })
+
+  it.skip('should send notifications to backend', () => {
+
+  })
+
+  it.skip('should fetchPinballApiData', () => {
+
+  })
+
+  it.skip('should find pinball machines near users location', () {
+
+  })
+
+  it.skip('should send a notification if user is within 500 ft of a location', () {
+
+  })
+
 })
