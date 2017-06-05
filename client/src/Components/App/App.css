@@ -67,39 +67,40 @@ header {
    -ms-transform:     rotate(35deg);
    -o-transform:      rotate(35deg);
 }
-#star-five:before {
-   border-bottom: 80px solid #450601;
-   border-left: 30px solid transparent;
-   border-right: 30px solid transparent;
-   position: absolute;
-   height: 0;
-   width: 0;
-   top: -55px;
-   left: -65px;
-   display: block;
-   content: '';
-   -webkit-transform: rotate(-35deg);
-   -moz-transform:    rotate(-35deg);
-   -ms-transform:     rotate(-35deg);
-   -o-transform:      rotate(-35deg);
 
+#star-five:before {
+  border-bottom: 80px solid #450601;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  position: absolute;
+  height: 0;
+  width: 0;
+  top: -55px;
+  left: -65px;
+  display: block;
+  content: '';
+  -webkit-transform: rotate(-35deg);
+  -moz-transform:    rotate(-35deg);
+  -ms-transform:     rotate(-35deg);
+  -o-transform:      rotate(-35deg);
 }
+
 #star-five:after {
-   position: absolute;
-   display: block;
-   color: #450601;
-   top: 3px;
-   left: -100px;
-   width: 0px;
-   height: 0px;
-   border-right: 110px solid transparent;
-   border-bottom: 60px solid #450601;
-   border-left: 90px solid transparent;
-   -webkit-transform: rotate(-70deg);
-   -moz-transform:    rotate(-70deg);
-   -ms-transform:     rotate(-70deg);
-   -o-transform:      rotate(-70deg);
-   content: '';
+  position: absolute;
+  display: block;
+  color: #450601;
+  top: 3px;
+  left: -100px;
+  width: 0px;
+  height: 0px;
+  border-right: 110px solid transparent;
+  border-bottom: 60px solid #450601;
+  border-left: 90px solid transparent;
+  -webkit-transform: rotate(-70deg);
+  -moz-transform:    rotate(-70deg);
+  -ms-transform:     rotate(-70deg);
+  -o-transform:      rotate(-70deg);
+  content: '';
 }
 
 #star-five2 {
@@ -114,6 +115,7 @@ header {
    -ms-transform:     rotate(60deg);
    -o-transform:      rotate(60deg);
 }
+
 #star-five2:before {
    border-bottom: 80px solid #450601;
    border-left: 30px solid transparent;
@@ -131,6 +133,7 @@ header {
    -o-transform:      rotate(-35deg);
 
 }
+
 #star-five2:after {
    position: absolute;
    display: block;
@@ -161,6 +164,7 @@ header {
    -ms-transform:     rotate(80deg);
    -o-transform:      rotate(80deg);
 }
+
 #star-five3:before {
    border-bottom: 80px solid #450601;
    border-left: 30px solid transparent;
@@ -176,8 +180,8 @@ header {
    -moz-transform:    rotate(-35deg);
    -ms-transform:     rotate(-35deg);
    -o-transform:      rotate(-35deg);
-
 }
+
 #star-five3:after {
    position: absolute;
    display: block;
@@ -280,7 +284,6 @@ header {
   border-radius: 5px;
   width: 100px;
   outline: none;
-
 }
 
 .nav-btns:hover {
@@ -290,15 +293,16 @@ header {
 .mapelement {
   width: 98%;
   height: 500px;
-  border: 10px solid #450601;
+  border: 10px solid #B4869F;
 }
 
 .containerElement {
-  border: 5px solid #B4869F;
+  /*border: 5px solid #B4869F;*/
   width: 81%;
   position: relative;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 2%;
 }
 
 #location-card-display {
@@ -321,4 +325,200 @@ header {
   border: 5px solid #B4869F;
   border-top-left-radius: 40px;
   border-top-right-radius: 40px;
+}
+
+@media screen and (max-width: 950px) {
+  #pop-bumper-button {
+    display: none;
+  }
+
+  #inner-oval {
+    display: none;
+  }
+
+  #star-five {
+    display: none;
+  }
+
+  #star-five:before {
+    display: none;
+  }
+  #star-five:after {
+    display: none;
+  }
+
+  #star-five2 {
+    display: none;
+  }
+
+  #star-five2:before {
+    display: none;
+  }
+
+  #star-five2:after {
+    display: none;
+  }
+
+  #star-five3 {
+    display: none;
+  }
+
+  #star-five3:before {
+    display: none;
+  }
+
+  #star-five3:after {
+    display: none;
+  }
+
+  #inspirational-quote {
+    color: #F6ECCC;
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+    font-size: 1.4em;
+    padding-left: 0;
+    margin-top: 5%;
+    margin-bottom: 10%;
+  }
+  #intro-message {
+    color: #F6ECCC;
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+    font-size: 2.5em;
+    padding-left: 0;
+    margin-top: -6%;
+    margin-bottom: 8%;
+    line-height: 1.5em;
+    letter-spacing: 4px;
+  }
+
+}
+
+@media screen and (max-width: 850px) {
+  .location-name {
+    width: 25%;
+    color: #F6ECCC;
+    font-family: 'Comfortaa', cursive;
+    padding: 1px;
+    text-align: left;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  #inspirational-quote {
+    color: #F6ECCC;
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+    font-size: 1.1em;
+    padding-left: 0;
+    margin-top: 5%;
+    margin-bottom: 10%;
+  }
+  #intro-message {
+    color: #F6ECCC;
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+    font-size: 2em;
+    padding-left: 0;
+    margin-top: -6%;
+    margin-bottom: 8%;
+    line-height: 1.5em;
+    letter-spacing: 4px;
+  }
+
+}
+
+@media screen and (max-width: 580px) {
+  .location-name {
+    width: 25%;
+    color: #F6ECCC;
+    font-family: 'Comfortaa', cursive;
+    padding: 1px;
+    text-align: left;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  #inspirational-quote {
+    color: #F6ECCC;
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+    font-size: 1.1em;
+    padding-left: 0.5%;
+    padding-right: 0.5%;
+    margin-top: 5%;
+    margin-bottom: 10%;
+  }
+  #intro-message {
+    color: #F6ECCC;
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+    font-size: 2em;
+    padding-left: 1%;
+    padding-right: 1%;
+    margin-top: -6%;
+    margin-bottom: 10%;
+    line-height: 1.5em;
+    letter-spacing: 4px;
+  }
+
+  #controls-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #search-bar {
+    width: 80%;
+    background: #191919;
+    border: none;
+    border-bottom: 3px solid #B4869F;
+    margin-left: 6%;
+    font-family: 'Comfortaa', cursive;
+    font-size: 1.3em;
+    color: #F6ECCC;
+    outline: none;
+    margin-bottom: 20px;
+  }
+
+  #nav-bar {
+    margin-right: 0;
+  }
+
+  .nav-btns {
+    background: #B4869F;
+    border: none;
+    padding-top: 3px;
+    margin-left: 10px;
+    margin-top: 3px;
+    border-radius: 5px;
+    width: 100px;
+    outline: none;
+    margin-bottom: 10%;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .location-name {
+    width: 45%;
+    color: #F6ECCC;
+    font-family: 'Comfortaa', cursive;
+    padding: 1px;
+    text-align: left;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  #intro-message {
+    color: #F6ECCC;
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+    font-size: 1.2em;
+    padding-left: 1%;
+    padding-right: 1%;
+    margin-top: -6%;
+    margin-bottom: 10%;
+    line-height: 1.5em;
+    letter-spacing: 4px;
+  }
 }

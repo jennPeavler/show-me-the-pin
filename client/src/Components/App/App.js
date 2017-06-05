@@ -42,6 +42,7 @@ export default class App extends Component {
   }
 
   findPinsWithinRange() {
+    //lat = 39.715386 long=-104.987137
     console.log(this.state.nearbyPins);
     this.state.nearbyPins.forEach(pin => {
       if(latLongConversion(Number(this.state.lat), Number(this.state.long), Number(pin.lat), Number(pin.lon)) < 0.15) {
