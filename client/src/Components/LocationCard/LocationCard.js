@@ -20,12 +20,4 @@ export const LocationCard = ({ match, nearbyPins }) => {
       })}
     </div>
   )
-  // const locationInfo = () => nearbyPins.map(location => {
-  //   console.log(location.id === Number(match.params.id));
-  //   if(location.id === Number(match.params.id)) {
-  //     return <p>{location.name}</p>
-  //   }
-  // })
-  // return <div>Location info not found</div>
-
 }
