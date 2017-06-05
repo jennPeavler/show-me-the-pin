@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
-// import { webPush } from 'web-push'
+
 
 import { pinballApiCall, gmapsApiCall, latLonPinballApiCall } from '../../helpers_apiCalls/apiCalls'
 import { latLongConversion } from '../../helpers_apiCalls/latLongConversion'
@@ -12,8 +12,8 @@ import { PopBumper} from '../PopBumper/PopBumper'
 import { InspirationalQuote } from '../InspirationalQuote/InspirationalQuote'
 import { SearchBar } from '../SearchBar/SearchBar'
 import { NavBar } from '../NavBar/NavBar'
-
 import './App.css';
+
 const webPush = require('web-push')
 
 export default class App extends Component {
@@ -42,7 +42,6 @@ export default class App extends Component {
   }
 
   findPinsWithinRange() {
-    //determines is user is within 500 fto of a pinball machine
     console.log(this.state.nearbyPins);
     this.state.nearbyPins.forEach(pin => {
       if(latLongConversion(Number(this.state.lat), Number(this.state.long), Number(pin.lat), Number(pin.lon)) < 0.15) {
@@ -95,7 +94,6 @@ export default class App extends Component {
   fetchNearbyPins(lat, long) {
     latLonPinballApiCall(lat, long)
     .then( nearbyPinData => {
-      // console.log(nearbyPinData);
       const pinsInOrder = nearbyPinData.locations.sort((a,z) => {
         return a.name.toUpperCase() < z.name.toUpperCase() ? -1 : 1
       })
