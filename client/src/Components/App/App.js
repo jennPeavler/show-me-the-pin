@@ -14,6 +14,7 @@ import { SearchBar } from '../SearchBar/SearchBar'
 import { NavBar } from '../NavBar/NavBar'
 import './App.css';
 
+
 const webPush = require('web-push')
 
 export default class App extends Component {
@@ -37,8 +38,10 @@ export default class App extends Component {
   componentWillMount() {
     this.verifyGeolocation()
     this.featureDetection()
-    this.askNotificationPermission()
-    this.sendSubscriptionToBackEnd()
+    if(process.env.NODE_ENV != 'test'){
+      this.askNotificationPermission()
+      this.sendSubscriptionToBackEnd()
+    }
   }
 
   findPinsWithinRange() {
@@ -78,6 +81,7 @@ export default class App extends Component {
 
   getLocation() {
     navigator.geolocation.getCurrentPosition(position => {
+      console.log(lat)
       let lat = position.coords.latitude
       let long = position.coords.longitude
       this.setState({ lat, long })
