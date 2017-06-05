@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
 
-
 import { pinballApiCall, gmapsApiCall, latLonPinballApiCall } from '../../helpers_apiCalls/apiCalls'
 import { latLongConversion } from '../../helpers_apiCalls/latLongConversion'
 import { urlBase64ToUint8Array } from '../../helpers_apiCalls/urlBase64ToUint8Array'
@@ -37,20 +36,31 @@ export default class App extends Component {
   componentWillMount() {
     this.verifyGeolocation()
     this.featureDetection()
-    this.askNotificationPermission()
-    this.sendSubscriptionToBackEnd()
+    if(process.env.NODE_ENV != 'test'){
+      this.askNotificationPermission()
+      this.sendSubscriptionToBackEnd()
+    }
   }
 
   findPinsWithinRange() {
     //lat = 39.715386 long=-104.987137
-    console.log(this.state.nearbyPins);
+    //lat=39.9832044 long=-105.2499644
     this.state.nearbyPins.forEach(pin => {
       if(latLongConversion(Number(this.state.lat), Number(this.state.long), Number(pin.lat), Number(pin.lon)) < 0.15) {
         console.log(pin);
         this.registerServiceWorker(pin.name)
         this.fetchSubscriptions()
       }
-
+      // if(latLongConversion( 39.715386, -104.987137, Number(pin.lat), Number(pin.lon)) < 0.15) {
+      //   console.log(pin);
+      //   this.registerServiceWorker(pin.name)
+      //   this.fetchSubscriptions()
+      // }
+      // if(latLongConversion(39.9832044, -105.2499644, Number(pin.lat), Number(pin.lon)) < 0.15) {
+      //   console.log(pin);
+      //   this.registerServiceWorker(pin.name)
+      //   this.fetchSubscriptions()
+      // }
     })
   }
 
@@ -138,13 +148,10 @@ export default class App extends Component {
   registerServiceWorker(locationName) {
     return navigator.serviceWorker.register('service-worker.js')
     .then(registration => {
-
       if(locationName) {
         registration.showNotification('There are pinballs nearby!  Go play them at ' + locationName )
         .then(console.log('success'))
       }
-
-
       return registration
     })
     .catch(err => {
@@ -161,8 +168,6 @@ export default class App extends Component {
           'BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U'
         )
       }
-      console.log(registration);
-
       return registration.pushManager.subscribe(subscribeOptions);
     })
     .then(pushSubscription => {
@@ -173,7 +178,6 @@ export default class App extends Component {
   sendSubscriptionToBackEnd() {
     this.subscribeUserToPush()
     .then(pushSubscription => {
-      console.log(pushSubscription);
       let subscription = JSON.stringify(pushSubscription)
       return fetch('api/save-subscription', {
         method: "POST",
@@ -209,15 +213,6 @@ export default class App extends Component {
 
   fetchSubscriptions() {
     fetch('http://localhost:3000/api/save-subscription')
-    // .then( response => response.json())
-    // .then(res => {
-    //   this.doTheThing(res.data[0])
-    //   // console.log(res);
-    //   // console.log(res.data[0])
-    // })
-    // .then(() => {
-    //   this.sendWebPushKeys()
-    // })
   }
 
   sendWebPushKeys() {
@@ -231,38 +226,6 @@ export default class App extends Component {
       'BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U',
       'H7eTw9rLYYyrML9fDIqkhloYjUPo11y5cJ8zng1hIPA'
     )
-  }
-
-  doTheThing(subscription) {
-    const notificationSub = subscription.subscription
-
-    // console.log(newSubscription);
-    this.sendWebPushKeys()
-    // const notification = {
-    //   notification: {
-    //     title: "PinShow Notification",
-    //     body: "You are near a pinball machine!",
-    //     icon: "./pinball-favicon.png"
-    //   }
-    // }
-    const options = {
-      // gcmAPIKey: '< GCM API Key >',
-      // vapidDetails: {
-      //   subject: '< \'mailto\' Address or URL >',
-      //   publicKey: '< URL Safe Base64 Encoded Public Key >',
-      //   privateKey: '< URL Safe Base64 Encoded Private Key >'
-      // },
-      // TTL: <Number>,
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      }
-    }
-    const notification = 'Pinball machine nearby'
-    return webPush.sendNotification(notificationSub, notification, options)
-  }
-
-  handleClick() {
-    console.log('clicking a location');
   }
 
   handleMarkerClick(location) {
@@ -285,7 +248,7 @@ export default class App extends Component {
           nearbyPins={this.state.nearbyPins}
           searched={this.state.searched}
           searchInput={this.state.searchInput}
-          handleClick={this.handleClick.bind(this)}/>
+        />
       )
     }
 

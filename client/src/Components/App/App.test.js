@@ -4,14 +4,11 @@ import App from './App';
 import fetchMock from 'fetch-mock'
 import { mount, shallow } from 'enzyme'
 const makeServiceWorkerEnv = require('service-worker-mock')
+process.env.NODE_ENV = 'test';
 
 describe('App', () => {
-  // it('renders without crashing', () => {
-  //   const div = document.createElement('div')
-  //   ReactDOM.render(<App />, div)
-  // })
 
-  it.skip('should render', () => {
+  it('should render', () => {
 
     window.Notification = {
       requestPermission: () => Promise.resolve('granted')
@@ -52,6 +49,23 @@ describe('App', () => {
 
     const wrapper = shallow(<App />)
     expect(wrapper.length).toEqual(1)
+  })
+
+  it.skip('should find the users location', () => {
+    // const wrapper = shallow(<App />)
+    // console.log(wrapper.state());
+    window.navigator.geolocation = {
+      getCurrentPosition: () => {
+          return {coords: {latitude: 10, longitude: 100}}
+      }
+        // return {coords: {latitude: 10, longitude: 100}}
+
+    }
+    const app = new App()
+
+    app.getLocation()
+    expect(app.state.lat).toBe(10)
+    expect(app.state.long).toBe(100)
   })
 
 })
