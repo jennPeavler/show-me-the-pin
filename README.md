@@ -1,3 +1,32 @@
+# PinShow
+## About this App
+
+### Background
+I have been playing pinball since the mid-90's.  I came up in a golden era of Twilight Zone, Midieval Madness, Attack from Mars, Circuis Voltair and a slew of just amazing and challenging machines.  
+
+Currently, I am attending Turing School of Software and Design learning to become a front end web developer.  Since this takes up the majority of my time, I do not have the opportunities to play as much pinball as I would like.  I have the tendancy of putting my nose down and just spending the whole day coding, and I love it!!!  But, I definitely need a reminder to put the code down and just go have some fun.  And what better way to have fun than pinball!!!
+
+### What the app does
+Upon page load, this app will get your location and list pinball machines within 50 miles of your location.  You can either view these in list view or map view and you can search in either view.  The other thing that this app does, is it will notify you if you are within 500 feet of a known public, playable pinball machine.  This way you can get a notification to go play some pinball and you can take a break from your busy day and just have a little fun!
+
+Although this app is still in testing, it will soon be available to view here:
+[https://show-me-the-pin.herokuapp.com/]
+
+Shortly after that it will be available for googlePlay and iTunes.
+
+Thank you for checking it out!!!
+
+### Tech Stack
+The front end of this project was developed using Create React App (documentation below).  The back end of this project was developed using express in conjuction with PostgreSQL.
+
+The app references the pinball map api [https://pinballmap.com/api/v1/docs] to access a database of pinball locations and information.  To learn more about the goings on of the good people from pinball map, check out their blog [http://blog.pinballmap.com/]
+
+Through building this app, I learned to make use of service workers, the push API and google API in order to send notifications to users if they walk within 500 ft of a public, playable pinball machine. 
+
+
+
+## React Documentation
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
