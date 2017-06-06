@@ -241,18 +241,19 @@ export default class App extends Component {
   }
 
   render() {
-    const locationDisplay = () => {
+    const locationDisplay = ({ history }) => {
       return (
         <LocationDisplay city={this.state.city}
           state={this.state.state}
           nearbyPins={this.state.nearbyPins}
           searched={this.state.searched}
           searchInput={this.state.searchInput}
+          history={history}
         />
       )
     }
 
-    const map = () => {
+    const map = ({ history }) => {
       return(
         <section>
           <Map mapElement={ <div className='mapelement' /> }
@@ -261,15 +262,17 @@ export default class App extends Component {
                nearbyPins={this.state.nearbyPins}
                searched={this.state.searched}
                searchInput={this.state.searchInput}
-               handleMarkerClick={this.handleMarkerClick.bind(this)} />
+               handleMarkerClick={this.handleMarkerClick.bind(this)}
+               history={history}
+          />
         </section>
       )
     }
 
-    const location = ({ match }) => {
+    const location = ({ match, history }) => {
         return (
           <section>
-            <LocationCard match={match} nearbyPins={this.state.nearbyPins} />
+            <LocationCard match={match} nearbyPins={this.state.nearbyPins} history={history} />
           </section>
         )
     }

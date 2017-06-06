@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export const LocationDisplay = ({ nearbyPins, searched, searchInput, match, city, state }) => {
+export const LocationDisplay = ({ nearbyPins, searched, searchInput, match, city, state, history }) => {
   if(!searched.length && searchInput === true){
     return (
       <div id='locations-container'>

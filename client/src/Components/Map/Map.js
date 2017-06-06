@@ -1,18 +1,29 @@
 import React from 'react'
 import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 
-export const Map = withGoogleMap(({ userLocation, nearbyPins, searched, searchInput, handleMarkerClick }) => {
+export const Map = withGoogleMap(({ userLocation, nearbyPins, searched, searchInput, handleMarkerClick, history }) => {
 
   const pinLocations = nearbyPins.map((location, i) => {
     if(!searched.length && searchInput === true) {
-      return 
+      return
     }
     else if(searchInput === false) {
+      console.log(location);
       return <Marker className='location-marker' key={i}
               position={{ lat: Number(location.lat), lng: Number(location.lon) }}
               onClick={()=>handleMarkerClick(location)}>
               { location.clicked === true && (
-                <InfoWindow onCloseClick={()=>handleMarkerClick(location)}><p>{location.name}</p></InfoWindow>
+                <InfoWindow onCloseClick={()=>handleMarkerClick(location)}>
+                  <div>
+                    <h3>{location.name}</h3>
+                    <p>{location.street}</p>
+                    <p>{location.city}, {location.state}</p>
+                    <h4>Machines:</h4>
+                    {location.machine_names.map((machine, index) => {
+                      return <p className='map-machines' key={index}>{machine}</p>
+                    })}
+                  </div>
+                </InfoWindow>
               )}
              </Marker>
     }

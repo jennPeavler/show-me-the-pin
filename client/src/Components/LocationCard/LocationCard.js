@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const LocationCard = ({ match, nearbyPins }) => {
+export const LocationCard = ({ match, nearbyPins, history }) => {
   return (
     <div id='location-card-display'>
       {nearbyPins.map(location => {
