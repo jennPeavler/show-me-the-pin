@@ -8,11 +8,22 @@ export const Map = withGoogleMap(({ userLocation, nearbyPins, searched, searchIn
       return
     }
     else if(searchInput === false) {
+      console.log(location);
       return <Marker className='location-marker' key={i}
               position={{ lat: Number(location.lat), lng: Number(location.lon) }}
               onClick={()=>handleMarkerClick(location)}>
               { location.clicked === true && (
-                <InfoWindow onCloseClick={()=>handleMarkerClick(location)}><p>{location.name}</p></InfoWindow>
+                <InfoWindow onCloseClick={()=>handleMarkerClick(location)}>
+                  <div>
+                    <h3>{location.name}</h3>
+                    <p>{location.street}</p>
+                    <p>{location.city}, {location.state}</p>
+                    <h4>Machines:</h4>
+                    {location.machine_names.map((machine, index) => {
+                      return <p className='map-machines' key={index}>{machine}</p>
+                    })}
+                  </div>
+                </InfoWindow>
               )}
              </Marker>
     }
