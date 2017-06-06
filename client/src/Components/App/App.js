@@ -98,21 +98,21 @@ export default class App extends Component {
     //lat = 39.715386 long=-104.987137
     //lat=39.9832044 long=-105.2499644
     this.state.nearbyPins.forEach(pin => {
-      if(latLongConversion(Number(this.state.lat), Number(this.state.long), Number(pin.lat), Number(pin.lon)) < 0.15) {
-        console.log(pin);
-        this.registerServiceWorker(pin.name)
-        this.fetchSubscriptions()
-      }
+      // if(latLongConversion(Number(this.state.lat), Number(this.state.long), Number(pin.lat), Number(pin.lon)) < 0.15) {
+      //   console.log(pin);
+      //   this.registerServiceWorker(pin.name)
+      //   this.fetchSubscriptions()
+      // }
       // if(latLongConversion( 39.715386, -104.987137, Number(pin.lat), Number(pin.lon)) < 0.15) {
       //   console.log(pin);
       //   this.registerServiceWorker(pin.name)
       //   this.fetchSubscriptions()
       // }
-      // if(latLongConversion(39.9832044, -105.2499644, Number(pin.lat), Number(pin.lon)) < 0.15) {
-      //   console.log(pin);
-      //   this.registerServiceWorker(pin.name)
-      //   this.fetchSubscriptions()
-      // }
+      if(latLongConversion(39.9832044, -105.2499644, Number(pin.lat), Number(pin.lon)) < 0.15) {
+        console.log(pin);
+        this.registerServiceWorker(pin.name)
+        this.fetchSubscriptions()
+      }
     })
   }
 
@@ -241,18 +241,19 @@ export default class App extends Component {
   }
 
   render() {
-    const locationDisplay = () => {
+    const locationDisplay = ({ history }) => {
       return (
         <LocationDisplay city={this.state.city}
           state={this.state.state}
           nearbyPins={this.state.nearbyPins}
           searched={this.state.searched}
           searchInput={this.state.searchInput}
+          history={history}
         />
       )
     }
 
-    const map = () => {
+    const map = ({ history }) => {
       return(
         <section>
           <Map mapElement={ <div className='mapelement' /> }
@@ -261,15 +262,17 @@ export default class App extends Component {
                nearbyPins={this.state.nearbyPins}
                searched={this.state.searched}
                searchInput={this.state.searchInput}
-               handleMarkerClick={this.handleMarkerClick.bind(this)} />
+               handleMarkerClick={this.handleMarkerClick.bind(this)}
+               history={history}
+          />
         </section>
       )
     }
 
-    const location = ({ match }) => {
+    const location = ({ match, history }) => {
         return (
           <section>
-            <LocationCard match={match} nearbyPins={this.state.nearbyPins} />
+            <LocationCard match={match} nearbyPins={this.state.nearbyPins} history={history} />
           </section>
         )
     }

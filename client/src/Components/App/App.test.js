@@ -69,7 +69,7 @@ describe('App', () => {
   })
 
 
-  it.skip('should verify that geolocation is in the browser', () {
+  it.skip('should verify that geolocation is in the browser', () => {
 
   })
 
@@ -89,11 +89,11 @@ describe('App', () => {
 
   })
 
-  it.skip('should find pinball machines near users location', () {
+  it.skip('should find pinball machines near users location', () => {
 
   })
 
-  it.skip('should send a notification if user is within 500 ft of a location', () {
+  it.skip('should send a notification if user is within 500 ft of a location', () => {
 
   })
 

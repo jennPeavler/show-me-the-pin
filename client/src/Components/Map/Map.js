@@ -1,11 +1,11 @@
 import React from 'react'
 import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 
-export const Map = withGoogleMap(({ userLocation, nearbyPins, searched, searchInput, handleMarkerClick }) => {
+export const Map = withGoogleMap(({ userLocation, nearbyPins, searched, searchInput, handleMarkerClick, history }) => {
 
   const pinLocations = nearbyPins.map((location, i) => {
     if(!searched.length && searchInput === true) {
-      return 
+      return
     }
     else if(searchInput === false) {
       return <Marker className='location-marker' key={i}
