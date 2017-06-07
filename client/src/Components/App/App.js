@@ -98,21 +98,21 @@ export default class App extends Component {
     //lat = 39.715386 long=-104.987137
     //lat=39.9832044 long=-105.2499644
     this.state.nearbyPins.forEach(pin => {
-      if(latLongConversion(Number(this.state.lat), Number(this.state.long), Number(pin.lat), Number(pin.lon)) < 0.15) {
-        console.log(pin);
-        this.registerServiceWorker(pin.name)
-        this.fetchSubscriptions()
-      }
+      // if(latLongConversion(Number(this.state.lat), Number(this.state.long), Number(pin.lat), Number(pin.lon)) < 0.15) {
+      //   console.log(pin);
+      //   this.registerServiceWorker(pin.name)
+      //   this.fetchSubscriptions()
+      // }
       // if(latLongConversion( 39.715386, -104.987137, Number(pin.lat), Number(pin.lon)) < 0.15) {
       //   console.log(pin);
       //   this.registerServiceWorker(pin.name)
       //   this.fetchSubscriptions()
       // }
-      // if(latLongConversion(39.9832044, -105.2499644, Number(pin.lat), Number(pin.lon)) < 0.15) {
-      //   console.log(pin);
-      //   this.registerServiceWorker(pin.name)
-      //   this.fetchSubscriptions()
-      // }
+      if(latLongConversion(39.9832044, -105.2499644, Number(pin.lat), Number(pin.lon)) < 0.15) {
+        console.log(pin);
+        this.registerServiceWorker(pin.name)
+        this.fetchSubscriptions()
+      }
     })
   }
 
@@ -232,12 +232,25 @@ export default class App extends Component {
     let newState = []
 
     this.state.nearbyPins.forEach(pin => {
+      if(pin.clicked === true && pin.name !== location.name) {
+        pin.clicked = false
+      }
       if(pin.name===location.name) {
         pin.clicked = !pin.clicked
       }
       newState.push(pin)
     })
     this.setState({nearbyPins: newState})
+  }
+
+  unclickAllMapPins() {
+    console.log('in unclick function');
+    let unclickedNearbyPins = []
+    this.state.nearbyPins.forEach(pin => {
+      pin.clicked = false
+      unclickedNearbyPins.push(pin)
+    })
+    this.setState({nearbyPins: unclickedNearbyPins})
   }
 
   render() {
@@ -249,6 +262,7 @@ export default class App extends Component {
           searched={this.state.searched}
           searchInput={this.state.searchInput}
           history={history}
+          unclickAllMapPins={this.unclickAllMapPins.bind(this)}
         />
       )
     }
