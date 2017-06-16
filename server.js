@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 webPush.setGCMAPIKey('BGGVP-YnOCGyLSqDenJGe7tkmqbNgyKjUlzlpCRtgU2YBvonZZWh5vgNhiyB6MoVe06L-8LW47l7zKvhFa1R-8U');
 
 app.post('/api/save-subscription', (req, res) => {
-  // console.log(req.body)
+  console.log(req.body)
   db.none('INSERT INTO subscriptions(subscription) values($1)', [req.body])
   .then(()=> {
     res.sendStatus(201)
